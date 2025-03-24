@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Paytm Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Paytm Clone</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Literata&display=swap');
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #002970;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        .search-bar {
+            padding: 8px;
+            width: 300px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        .account {
+            display: flex;
+            align-items: center;
+            background-color: #00baf2;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #0078d7;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    justify-content: center;
+}
+
+.btn i {
+    font-size: 18px;
+}
+.btn-center {
+            display: block;
+            margin: 20px auto; /* Centering Back to Wallet button */
+        }
+
+
+        .btn:hover {
+            background: #005bb5;
+        }
+
+        .scanner-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .scanner-img {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .transaction-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .transaction-item {
+            background: #ddd;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="left">
+            <img src="https://seeklogo.com/images/P/paytm-logo-092D33ED90-seeklogo.com.png" alt="Paytm Logo" class="logo">
+        </div>
+        <div class="middle">
+            <input type="text" placeholder="Search Paytm..." class="search-bar">
+        </div>
+        <div class="right">
+            <div class="account" onclick="showLoginForm()" id="accountBtn">
+                Sign In
+                Welcome, <span id="user-name"></span>
+                <button class="btn" onclick="showLoginForm()">Sign In</button>
+                <img class="avatar" src="https://tse2.mm.bing.net/th?id=OIP.NMMzLLjrbESLtFRM199LzQHaHa&pid=Api&P=0&w=300&h=300" alt="Avatar">
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-container" class="container" style="display: none;">
+        <h2>Sign In</h2>
+        <div class="form-group">
+            <input type="text" id="username" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <button class="btn" onclick="signIn()">Sign In</button>
+        <button class="btn" onclick="hideLoginForm()">Cancel</button>
+    </div>
+    
+    <!-- Home Page -->
+    <div id="home-container" class="container">
+        <h1>Welcome to Paytm Clone</h1>
+        <p>Manage your digital wallet, pay bills, and send money easily.</p>
+        <button class="btn" onclick="transferToMobile()">
+            <i class="fa-solid fa-mobile-alt"></i> Send Money to Mobile
+        </button>
+        <button class="btn" onclick="transferToBank()">
+            <i class="fa-solid fa-university"></i> Transfer to Bank
+        </button>
+        <button class="btn" onclick="selfTransfer()">
+            <i class="fa-solid fa-user"></i> Transfer to Self Account
+        </button>
+        <button class="btn" onclick="showTransactionHistory()">
+            <i class="fa-solid fa-clock-rotate-left"></i> View Transaction History
+        </button>
+        <button class="btn" onclick="showWallet()">
+            <i class="fa-solid fa-wallet"></i> Go to Wallet
+        </button>
+
+    </div>
+
+    <!-- Money Transfer Forms -->
+    <div id="transfer-container" class="container" style="display: none;">
+        <h2 id="transfer-title"></h2>
+        <div class="form-group">
+            <input type="text" id="recipient" placeholder="Enter recipient (Mobile/Bank)">
+        </div>
+        <div class="form-group">
+            <input type="number" id="transfer-amount" placeholder="Enter amount">
+        </div>
+        <button class="btn" onclick="processTransfer()">Send Money</button>
+        <button class="btn" onclick="showHome()">Cancel</button>
+    </div>
+
+
+    <!-- Wallet Page -->
+    <div id="wallet-container" class="container" style="display: none;">
+        <header>
+            <h1>Paytm Wallet</h1>
+        </header>
+        <div class="wallet-section">
+            <h2>Wallet Balance: ₹<span id="wallet-balance">5000</span></h2>
+            <button class="btn" onclick="addMoney()">
+                <i class="fa-solid fa-plus-circle"></i> Add Money
+            </button>
+            <button class="btn" onclick="makePayment()">
+                <i class="fa-solid fa-credit-card"></i> Make Payment
+            </button>
+            <button class="btn" onclick="showTransactionHistory()">
+                <i class="fa-solid fa-list"></i> View Transaction History
+            </button>
+        </div>
+        <button class="btn btn-center" onclick="showHome()">Back to Home</button>
+
+
+        <div class="scanner-container">
+            <h3>Scan to Pay</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/QR_Code_example.png" 
+                 alt="Scanner QR Code" class="scanner-img">
+        </div>
+    </div>
+
+    <!-- Transaction History Page -->
+    <div id="transaction-container" class="container" style="display: none;">
+        <h1>Transaction History</h1>
+        <ul id="transaction-history" class="transaction-list"></ul>
+        <button class="btn" onclick="showWallet()">Back to Wallet</button>
+    </div>
+
+    <script>
+        let walletBalance = 5000;
+        let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+        function updateWalletDisplay() {
+            document.getElementById("wallet-balance").innerText = walletBalance;
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+        }
+
+        function signIn() {
+    const username = document.getElementById("username").value;
+    if (username) {
+        localStorage.setItem("username", username);
+                document.getElementById("home-container").style.display = "block";
+                document.getElementById("login-container").style.display = "none";
+            } else {
+                alert("Please enter your name");
+            }
+        }
+  
+
+function updateWalletDisplay() {
+    if (document.getElementById("wallet-balance")) {
+        document.getElementById("wallet-balance").innerText = walletBalance;
+    }
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+function transferToMobile() {
+            document.getElementById("transfer-title").innerText = "Send Money to Mobile";
+            document.getElementById("transfer-container").style.display = "block";
+            document.getElementById("home-container").style.display = "none";
+        }
+
+        function transferToBank() {
+            document.getElementById("transfer-title").innerText = "Transfer to Bank Account";
+            document.getElementById("transfer-container").style.display = "block";
+            document.getElementById("home-container").style.display = "none";
+        }
+
+        function selfTransfer() {
+            document.getElementById("transfer-title").innerText = "Transfer to Self Account";
+            document.getElementById("transfer-container").style.display = "block";
+            document.getElementById("home-container").style.display = "none";
+        }
+        function processTransfer() {
+            let recipient = document.getElementById("recipient").value;
+            let amount = parseInt(document.getElementById("transfer-amount").value);
+
+            if (!recipient || isNaN(amount) || amount <= 0 || amount > walletBalance) {
+                alert("Invalid transaction details or insufficient balance.");
+                return;
+            }
+
+
+
+        function addMoney() {
+            let amount = prompt("Enter amount to add:");
+            amount = parseInt(amount);
+            if (!isNaN(amount) && amount > 0) {
+                walletBalance += amount;
+                transactions.push(`Credited: ₹${amount}`);
+                updateWalletDisplay();
+            } else {
+                alert("Invalid amount");
+            }
+        }
+
+        function makePayment() {
+            let amount = prompt("Enter amount to pay:");
+            amount = parseInt(amount);
+            if (!isNaN(amount) && amount > 0 && amount <= walletBalance) {
+                walletBalance -= amount;
+                transactions.push(`Debited: ₹${amount}`);
+                updateWalletDisplay();
+            } else {
+                alert("Invalid or insufficient funds");
+            }
+        }
+
+        function showTransactionHistory() {
+            document.getElementById("wallet-container").style.display = "none";
+            document.getElementById("transaction-container").style.display = "block";
+
+            let historyList = document.getElementById("transaction-history");
+            historyList.innerHTML = "";
+            if (transactions.length === 0) {
+                historyList.innerHTML = "<p>No transactions found.</p>";
+            } else {
+                transactions.forEach(transaction => {
+                    let li = document.createElement("li");
+                    li.className = "transaction-item";
+                    li.innerText = transaction;
+                    historyList.appendChild(li);
+                });
+            }
+        }
+
+        function showWallet() {
+            document.getElementById("home-container").style.display = "none";
+            document.getElementById("wallet-container").style.display = "block";
+            document.getElementById("transaction-container").style.display = "none";
+        }
+
+        function showHome() {
+            document.getElementById("wallet-container").style.display = "none";
+            document.getElementById("transaction-container").style.display = "none";
+            document.getElementById("home-container").style.display = "block";
+        }
+
+        function showLoginForm() {
+            document.getElementById("login-container").style.display = "block";
+        }
+
+        function hideLoginForm() {
+            document.getElementById("login-container").style.display = "none";
+        }
+
+        updateWalletDisplay();
+    </script>
+
+</body>
+</html>
